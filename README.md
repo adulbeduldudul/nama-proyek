@@ -18,7 +18,7 @@ bun --bun run build
 ```
 
 ## Styling
-
+jjujjuuj
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 ### Removing Tailwind CSS
