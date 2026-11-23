@@ -40,7 +40,7 @@ bun --bun run lint
 bun --bun run format
 bun --bun run check
 ```
-
+sssss
 
 ## Deploy to Vercelsssssssss
 
