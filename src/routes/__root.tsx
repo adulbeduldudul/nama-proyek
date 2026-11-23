@@ -15,12 +15,17 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Bumi Ternak — Ternak Pilihan, Hati Tenang',
+        title: 'Showroom Tanduk | Jual Domba Garut & Kambing Etawa/Jawa Sejak 2005',
       },
       {
         name: 'description',
-        content: 'Pilih kambing kurban dan aqiqah yang sehat, dirawat dengan baik, dan disiapkan hingga hari pelaksanaan.',
+        content: 'Showroom Tanduk di Cobdas menyediakan mayoritas Domba Garut dan pilihan Kambing Etawa/Jawa kualitas Super, Medium, dan Standar. Siap kirim se-Jabodetabek. Jual beli domba dan kambing sejak 2005.',
       },
+      { name: 'keywords', content: 'jual beli kambing, jual domba garut, Domba Garut, kambing Etawa, kambing Jawa, jual kambing Jabodetabek, Showroom Tanduk, Cobdas' },
+      { property: 'og:title', content: 'Showroom Tanduk — Domba Garut & Kambing Pilihan' },
+      { property: 'og:description', content: 'Mayoritas Domba Garut, pilihan Etawa/Jawa, kualitas Super, Medium, dan Standar. Siap kirim se-Jabodetabek.' },
+      { property: 'og:type', content: 'website' },
+      { 'script:ld+json': { '@context': 'https://schema.org', '@type': 'Store', name: 'Showroom Tanduk', description: 'Jual beli Domba Garut dan Kambing Etawa/Jawa sejak 2005. Siap kirim se-Jabodetabek.', address: { '@type': 'PostalAddress', addressLocality: 'Cobdas', addressRegion: 'Jabodetabek', addressCountry: 'ID' }, areaServed: 'Jabodetabek', knowsAbout: ['Domba Garut', 'Kambing Etawa', 'Kambing Jawa', 'Jual beli kambing'] } },
     ],
     links: [
       {
@@ -34,7 +39,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="id">
       <head>
         <HeadContent />
       </head>
