@@ -62,7 +62,11 @@ function LandingPage() {
   return (
     <main>
       <nav className="site-nav wrap" aria-label="Navigasi utama">
+<<<<<<< HEAD
         <a className="brand" href="#beranda"><span className="brand-mark"><img src="https://www.shutterstock.com/image-vector/goat-animal-farm-icon-260nw-631291580.jpg" alt="" /></span><span>Showroam<span className="brand-light">Tanduk</span><small>TERNAK PILIHAN, HATI TENANG</small></span></a>
+=======
+        <a className="brand" href="#beranda"><span className="brand-mark">B</span><span>Bumi<span className="brand-light">Ternak</span><small>TERNAK PILIHAN, HATI TENANG</small></span></a>
+>>>>>>> 6955f238973ad9d7e6ff770c94260df7ae6db5ac
         <div className="nav-links"><a href="#katalog">Katalog</a><a href="#tentang">Tentang kami</a><a className="nav-contact" href="https://wa.me/6283156787434?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20kambing" target="_blank" rel="noreferrer">Hubungi kami <span>↗</span></a></div>
       </nav>
 
@@ -92,7 +96,11 @@ function LandingPage() {
 
       <section className="about-section wrap" id="tentang" data-reveal="up"><div className="about-mark" aria-hidden="true">✳</div><div className="about-copy"><div className="eyebrow">Tentang Showroam Tanduk</div><h2>Merawat hewan,<br /><em>menjaga amanah.</em></h2><p>Kami memulai Showroam Tanduk dengan keyakinan sederhana: ibadah yang baik berawal dari hewan yang sehat dan perawatan yang sungguh-sungguh. Kami mendampingi keluarga memilih kambing kurban maupun aqiqah, dengan informasi yang jelas dan pelayanan yang hangat.</p><button className="about-toggle" aria-expanded={showInfo} onClick={() => setShowInfo(!showInfo)}>{showInfo ? 'Tutup cerita kami' : 'Baca cerita kami'} <span>{showInfo ? '−' : '+'}</span></button>{showInfo && <div className="history-panel"><h3>Kurban &amp; aqiqah, dengan tenang</h3><p>Kurban adalah ibadah berbagi yang mengajarkan kepedulian. Aqiqah menjadi ungkapan syukur keluarga atas kelahiran buah hati. Apa pun kebutuhannya, kami membantu memilih kambing yang sesuai, menjelaskan bobot dan kondisinya, serta mempersiapkannya dengan baik menjelang hari pelaksanaan.</p><p>Pengelolaan ternak kami juga mencakup pencatatan kesehatan, jadwal vaksinasi, ketersediaan pakan dan air minum agar setiap hewan memperoleh perhatian yang layak.</p></div>}</div><div className="about-stamp"><span>AMANAH</span><span className="stamp-star">✳</span><span>SEJAK AWAL</span></div></section>
 
+<<<<<<< HEAD
       <footer className="footer"><div className="wrap footer-inner"><a className="brand footer-brand" href="#beranda"><span className="brand-mark"><img src="https://www.shutterstock.com/image-vector/goat-animal-farm-icon-260nw-631291580.jpg" alt="" /></span><span>Showroam<span className="brand-light">Tanduk</span><small>TERNAK PILIHAN, HATI TENANG</small></span></a><p>Semoga setiap pilihan membawa kebaikan.</p><a href="https://wa.me/6283156787434" target="_blank" rel="noreferrer">Tanya lewat WhatsApp ↗</a><span className="copyright">© 2005 Showroam Tanduk</span></div></footer>
+=======
+      <footer className="footer"><div className="wrap footer-inner"><a className="brand footer-brand" href="#beranda"><span className="brand-mark">B</span><span>Bumi<span className="brand-light">Ternak</span><small>TERNAK PILIHAN, HATI TENANG</small></span></a><p>Semoga setiap pilihan membawa kebaikan.</p><a href="https://wa.me/6283156787434" target="_blank" rel="noreferrer">Tanya lewat WhatsApp ↗</a><span className="copyright">© 2026 Bumi Ternak</span></div></footer>
+>>>>>>> 6955f238973ad9d7e6ff770c94260df7ae6db5ac
     </main>
   )
 }
