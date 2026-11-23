@@ -56,7 +56,7 @@ function LandingPage() {
     <main>
       <nav className="site-nav wrap" aria-label="Navigasi utama">
         <a className="brand" href="#beranda"><span className="brand-mark">B</span><span>Bumi<span className="brand-light">Ternak</span><small>TERNAK PILIHAN, HATI TENANG</small></span></a>
-        <div className="nav-links"><a href="#katalog">Katalog</a><a href="#tentang">Tentang kami</a><a className="nav-contact" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20kambing" target="_blank" rel="noreferrer">Hubungi kami <span>↗</span></a></div>
+        <div className="nav-links"><a href="#katalog">Katalog</a><a href="#tentang">Tentang kami</a><a className="nav-contact" href="https://wa.me/6283156787434?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20kambing" target="_blank" rel="noreferrer">Hubungi kami <span>↗</span></a></div>
       </nav>
 
       <section className="hero wrap" id="beranda">
