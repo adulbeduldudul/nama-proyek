@@ -42,7 +42,7 @@ bun --bun run check
 ```
 
 
-## Deploy to Vercel
+## Deploy to Vercelsssssssss
 
 1. Push this repo to GitHub, GitLab, or Bitbucket
 2. In Vercel, choose **Add New > Project** and import the repo
