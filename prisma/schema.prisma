@@ -1,0 +1,261 @@
+// Showroom kambing: stok dicatat per hewan agar seluruh pergerakan dapat diaudit.
+// URL datasource dikelola oleh prisma7.config.ts (Prisma 7).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  OWNER
+}
+
+enum GoatStatus {
+  AVAILABLE
+  SOLD
+  TRANSFERRED
+  DECEASED
+  OTHER_OUT
+}
+
+enum StockMovementType {
+  IN
+  OUT
+  CORRECTION
+}
+
+enum StockExitReason {
+  SOLD
+  TRANSFERRED
+  DECEASED
+  CORRECTION
+  OTHER
+}
+
+enum FeedRecordType {
+  PURCHASE
+  USAGE
+}
+
+enum FeedAllocationType {
+  GOAT
+  GROUP
+  SHOWROOM
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  STOCK_IN
+  STOCK_OUT
+  WEIGH_IN
+  FEED_RECORD
+  CORRECTION
+  LOGIN
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  passwordHash   String
+  role           UserRole @default(ADMIN)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  stockMovements StockMovement[]
+  weightRecords  WeightRecord[]
+  feedRecords    FeedRecord[]
+  auditLogs      AuditLog[]
+  reconciliations StockReconciliation[]
+
+  @@index([role, isActive])
+}
+
+model GoatType {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  goats Goat[]
+}
+
+model Goat {
+  id             String     @id @default(cuid())
+  tag            String     @unique // ID yang terlihat pada label fisik
+  typeId         String
+  sex            String?    // Contoh: MALE/FEMALE; nullable bila belum diketahui
+  status         GoatStatus @default(AVAILABLE)
+  arrivalAt      DateTime
+  initialWeightKg Decimal   @db.Decimal(7, 2)
+  currentWeightKg Decimal?  @db.Decimal(7, 2) // cache dari penimbangan terbaru
+  currentWeighedAt DateTime?
+  source         String?
+  notes          String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  archivedAt     DateTime?
+
+  type             GoatType        @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  photos           GoatPhoto[]
+  stockMovements   StockMovement[]
+  weightRecords    WeightRecord[]
+  feedAllocations  FeedAllocation[]
+
+  @@index([status, typeId])
+  @@index([arrivalAt])
+  @@index([currentWeightKg])
+  @@index([tag])
+}
+
+model GoatPhoto {
+  id          String   @id @default(cuid())
+  goatId      String
+  url         String   // URL object storage; jangan menyimpan binary foto di database
+  storageKey  String?  @unique
+  caption     String?
+  isPrimary   Boolean  @default(false)
+  takenAt     DateTime?
+  createdAt   DateTime @default(now())
+
+  goat Goat @relation(fields: [goatId], references: [id], onDelete: Cascade)
+
+  @@index([goatId, isPrimary])
+}
+
+model StockMovement {
+  id                 String            @id @default(cuid())
+  goatId             String
+  recordedById       String
+  type               StockMovementType
+  occurredAt         DateTime
+  reason             StockExitReason?  // wajib di level aplikasi untuk OUT
+  source             String?           // asal kambing saat IN
+  recipient          String?           // penerima/pembeli saat OUT, jika diizinkan
+  weightKg           Decimal?          @db.Decimal(7, 2)
+  photoUrl           String?           // wajib saat IN/OUT kecuali ada exemptionReason
+  photoStorageKey    String?           @unique
+  exemptionReason    String?           // alasan foto tidak tersedia
+  notes              String?
+  correctsMovementId String?           @unique
+  createdAt          DateTime          @default(now())
+
+  goat        Goat           @relation(fields: [goatId], references: [id], onDelete: Restrict)
+  recordedBy  User           @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+  corrects    StockMovement? @relation("MovementCorrection", fields: [correctsMovementId], references: [id], onDelete: Restrict)
+  correction  StockMovement? @relation("MovementCorrection")
+
+  @@index([goatId, occurredAt])
+  @@index([type, occurredAt])
+  @@index([recordedById, createdAt])
+}
+
+model WeightRecord {
+  id              String   @id @default(cuid())
+  goatId          String
+  recordedById    String
+  weighedAt       DateTime
+  weightKg        Decimal  @db.Decimal(7, 2)
+  photoUrl        String?
+  photoStorageKey String?  @unique
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  goat       Goat @relation(fields: [goatId], references: [id], onDelete: Restrict)
+  recordedBy User @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@index([goatId, weighedAt])
+  @@index([recordedById, createdAt])
+}
+
+model FeedRecord {
+  id              String            @id @default(cuid())
+  recordedById    String
+  type            FeedRecordType
+  feedName        String
+  occurredAt      DateTime
+  quantity        Decimal           @db.Decimal(10, 3)
+  unit            String            // kg, karung, liter, dll.
+  cost             Decimal?          @db.Decimal(14, 2)
+  allocationType  FeedAllocationType
+  groupName       String?           // isi bila allocationType = GROUP
+  receiptPhotoUrl String?
+  receiptStorageKey String?         @unique
+  notes           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  recordedBy User             @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+  allocations FeedAllocation[]
+
+  @@index([occurredAt, feedName])
+  @@index([type, occurredAt])
+  @@index([allocationType, occurredAt])
+}
+
+model FeedAllocation {
+  id           String @id @default(cuid())
+  feedRecordId String
+  goatId       String
+  quantity     Decimal? @db.Decimal(10, 3) // opsional bila pembagian jumlah diketahui
+
+  feedRecord FeedRecord @relation(fields: [feedRecordId], references: [id], onDelete: Cascade)
+  goat       Goat       @relation(fields: [goatId], references: [id], onDelete: Restrict)
+
+  @@unique([feedRecordId, goatId])
+  @@index([goatId, feedRecordId])
+}
+
+model StockReconciliation {
+  id                String   @id @default(cuid())
+  performedById     String
+  checkedAt         DateTime
+  expectedCount     Int
+  actualCount       Int
+  difference        Int      // actualCount - expectedCount
+  notes             String?
+  resolvedAt        DateTime?
+  createdAt         DateTime @default(now())
+
+  performedBy User @relation(fields: [performedById], references: [id], onDelete: Restrict)
+
+  @@index([checkedAt])
+  @@index([resolvedAt, checkedAt])
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  action     AuditAction
+  entityType String
+  entityId   String?
+  summary    String
+  before     Json?
+  after      Json?
+  createdAt  DateTime    @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}
+
+// Dipertahankan agar catatan dari implementasi sebelumnya tidak ikut terhapus.
+model Note {
+  id       String   @id @default(cuid())
+  title    String
+  content  String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
