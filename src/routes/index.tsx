@@ -5,7 +5,7 @@ export const Route = createFileRoute('/')({ component: LandingPage })
 
 const goats = [
   { name: 'Domba garut', weight: '28–34 kg', price: 'Rp 2.850.000', tag: 'Banyak pilihan', color: 'sand', image: '/images/domba-garut.jpg' },
-  {  name: 'Kambing Atawa', weight: '25–30 kg', price: 'Rp 2.900.000', tag: 'Pilihan hemat', color: 'clay', image: '/images/kambing-jawa.jpg' },
+  {  name: 'Kambing Atawa', weight: '25–30 kg', price: 'Rp 2.900.000', tag: 'Pilihan hemat', color: 'clay', image: '/images/images.jpeg' },
   { name: 'Kambing Jawa', weight: '25–30 kg', price: 'Rp 2.500.000', tag: 'Pilihan hemat', color: 'clay', image: '/images/kambing-jawa.jpg' },
 ]
 
