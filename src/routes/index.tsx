@@ -5,7 +5,7 @@ export const Route = createFileRoute('/')({ component: LandingPage })
 
 const goats = [
   { name: 'Domba garut', weight: '28–34 kg', price: 'Rp 2.850.000', tag: 'Banyak pilihan', color: 'sand', image: '/images/domba-garut.jpg' },
-  { name: 'Etawa', weight: '32–40 kg', price: 'Rp 3.750.000', tag: 'Postur istimewa', color: 'olive', image: '/images/etawa.jpg' },
+  { name: 'Etawa', weight: '32–40 kg', price: 'Rp 3.750.000', tag: 'Postur istimewa', color: 'olive', image: '          <div className="goat-grid">{goats.map((goat, index) => <article className="goat-card" data-reveal="up" key={goat.name} style={{ '--reveal-delay': `${index * 110}ms` } as React.CSSProperties}><div className={`goat-visual ${goat.color}`}><img className="goat-photo" src="/images/domba-garut.jpg" alt={goat.name} loading="lazy" width="600" height="450" /><span className="goat-tag">{goat.tag}</span><span className="goat-index">0{index + 1}</span></div><div className="goat-info"><div className="goat-name-line"><h3>{goat.name}</h3><span className="available"><i /> Tersedia</span></div><div className="goat-detail"><span>Bobot perkiraan</span><strong>{goat.weight}</strong></div><div className="goat-price-line"><div><small>Harga mulai</small><strong>{goat.price}</strong></div><a aria-label={`Pesan ${goat.name} lewat WhatsApp`} className="order-button" href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Halo, saya tertarik dengan kambing ${goat.name}. Boleh minta informasi lebih lanjut?`)}`} target="_blank" rel="noreferrer">Pesan ↗</a></div></div></article>)}</div>' },
   { name: 'Kambing Jawa', weight: '25–30 kg', price: 'Rp 2.500.000', tag: 'Pilihan hemat', color: 'clay', image: '/images/kambing-jawa.jpg' },
 ]
 
